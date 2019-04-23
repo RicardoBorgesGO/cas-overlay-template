@@ -14,6 +14,10 @@ buildscript {
     }
 }
 
+plugins {
+		id "io.spring.dependency-management" version "1.0.7.RELEASE"
+}
+
 repositories {
     mavenLocal()
     mavenCentral()
@@ -39,9 +43,27 @@ apply plugin: "eclipse"
 apply plugin: "idea"
 apply plugin: "com.google.cloud.tools.jib"
 
+dependencyManagement {
+    imports {
+        mavenBom "org.apereo.cas:cas-server-support-bom:${casServerVersion}"
+    }
+}
+
 dependencies {
     compile "org.apereo.cas:cas-server-webapp${project.appServer}:${casServerVersion}"
     // Other CAS dependencies/modules may be listed here...
+    //compile "org.apereo.cas:cas-server-support-jdbc:${casServerVersion}"
+
+    //compile "org.apereo.cas:cas-server-core:${casServerVersion}"
+    //compile "org.apereo.cas:cas-server-core-authentication:${casServerVersion}"
+    //compile "org.apereo.cas:cas-server-core-api-authentication:${casServerVersion}"
+    //compile "org.apereo.cas:cas-server-support-bom:${casServerVersion}"
+    //compile "org.apereo.cas:cas-server-webapp-tomcat:${project.appServer}:${casServerVersion}"
+    
+    providedCompile 'org.apereo.cas:cas-server-support-json-service-registry'
+    providedCompile 'org.apereo.cas:cas-server-core-authentication-api'
+    providedCompile 'org.apereo.cas:cas-server-core-api-configuration-model'
+    providedCompile 'org.apereo.cas:cas-server-core-util-api'
 }
 
 tasks.findByName("jibDockerBuild")
